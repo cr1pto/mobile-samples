@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:glob_app/screens/home.dart';
 import 'package:glob_app/screens/settings.dart';
+import 'package:glob_app/shared/menu_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SettingsScreen(),
+      // home: SettingsScreen(),
+      home: HomeScreen(),
     );
   }
 }

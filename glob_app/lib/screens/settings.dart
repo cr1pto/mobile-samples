@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:glob_app/shared/menu_bar.dart';
 import '../data/shared_prefs.dart';
 import '../models/font_size.dart';
 
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  List<DropdownMenuItem<String>> dropItems = [];
+  List<DropdownMenuItem<String>> fontSizesItems = [];
+  List<DropdownMenuItem<String>> fontTypes = [];
   int settingColor = 0xff1976d2;
   double fontSize = 16;
+  String fontType = 'courier';
   List<int> colors = [
     0xFF455A64,
     0xFFFFC107,
@@ -28,15 +31,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
     FontSize('extra-large', 24),
   ];
 
+  final List<String> fontTypeNames = [
+    'courier',
+    'times',
+    'roboto',
+    'arial',
+    'serif', // basically the same thing as times
+    'sans-serif', // basically the same thing as roboto
+    'comic-sans',
+    'poor-richard',
+    'mistral',
+    'wingdings',
+    'calibri',
+    'calibre',
+    'Raleway' // mac?
+  ];
+
   @override
   void initState() {
     settings.init().then((value) => {
-          setState(() {
-            settingColor = settings.getColor();
-            fontSize = settings.getFontSize();
-            dropItems = getDropDownMenuItems();
-          })
-        });
+      setState(() {
+        settingColor = settings.getColor();
+        fontSize = settings.getFontSize();
+        fontType = settings.getFontType();
+        fontSizesItems = getDropDownMenuItems();
+        fontTypes = getFontTypes();
+      })
+    });
     super.initState();
   }
 
@@ -44,46 +65,60 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: const Text('Settings'),
           backgroundColor: Color(settingColor),
         ),
+        drawer: const MenuDrawer(),
         body:
-            Column(
+        Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text('Choose a Font Size for the app',
+                  style: TextStyle(
+                      fontSize: fontSize,
+                      fontFamily: fontType,
+                      color: Color(settingColor))),
+              DropdownButton(
+                  value: fontSize.toString(),
+                  items: fontSizesItems,
+                  onChanged: changeSize),
+              Text('Choose a Font Type for the app',
+                  style: TextStyle(
+                      fontSize: fontSize,
+                      fontStyle: FontStyle.normal,
+                      fontFamily: fontType,
+                      color: Color(settingColor))),
+              DropdownButton(
+                  value: fontType,
+                  items: fontTypes,
+                  onChanged: changeFontType
+              ),
+              Text('App Main Color',
+                  style: TextStyle(
+                      fontSize: fontSize,
+                      fontFamily: fontType,
+                      color: Color(settingColor))),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text('Choose a Font Size for the app',
-                      style: TextStyle(
-                          fontSize: fontSize,
-                          color: Color(settingColor))),
-                  DropdownButton(
-                    value: fontSize.toString(),
-                    items: dropItems,
-                    onChanged: changeSize),
-                  Text('App Main Color',
-                      style: TextStyle(
-                          fontSize: fontSize,
-                          color: Color(settingColor))),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                          onTap: () => setColor(colors[0]),
-                          child: ColorSquare(colors[0])),
-                      GestureDetector(
-                          onTap: () => setColor(colors[1]),
-                          child: ColorSquare(colors[1])),
-                      GestureDetector(
-                          onTap: () => setColor(colors[2]),
-                          child: ColorSquare(colors[2])),
-                      GestureDetector(
-                          onTap: () => setColor(colors[3]),
-                          child: ColorSquare(colors[3])),
-                      GestureDetector(
-                          onTap: () => setColor(colors[4]),
-                          child: ColorSquare(colors[4])),
-            ],
-          )
-        ]));
+                  GestureDetector(
+                      onTap: () => setColor(colors[0]),
+                      child: ColorSquare(colors[0])),
+                  GestureDetector(
+                      onTap: () => setColor(colors[1]),
+                      child: ColorSquare(colors[1])),
+                  GestureDetector(
+                      onTap: () => setColor(colors[2]),
+                      child: ColorSquare(colors[2])),
+                  GestureDetector(
+                      onTap: () => setColor(colors[3]),
+                      child: ColorSquare(colors[3])),
+                  GestureDetector(
+                      onTap: () => setColor(colors[4]),
+                      child: ColorSquare(colors[4])),
+                ],
+              )
+            ]));
   }
 
   void setColor(int color) {
@@ -93,24 +128,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  List<DropdownMenuItem<String>> getFontTypes() {
+    List<DropdownMenuItem<String>> items = [];
+    items = List.of(fontTypeNames.map((fontTypeForItem) {
+      DropdownMenuItem<String> item = DropdownMenuItem(
+          value: fontTypeForItem,
+          child: Text(fontTypeForItem));
+      return item;
+    }));
+
+    return items;
+  }
+
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = [];
-    // for(FontSize fontSize in fontSizes) {
-    //   items.add(DropdownMenuItem(
-    //     value: fontSize.size.toString(), child: Text(fontSize.name),
-    //   ));
-    // }
-    // return items;
 
-     items = List.of(fontSizes.map((fontSizeForItem) => DropdownMenuItem(value: fontSizeForItem.size.toString(), child: Text(fontSizeForItem.name))));
+    items = List.of(fontSizes.map((fontSizeForItem) => DropdownMenuItem(
+        value: fontSizeForItem.size.toString(),
+        child: Text(fontSizeForItem.name))));
 
-     return items;
+    return items;
   }
 
   void changeSize(String? newSize) {
     settings.setFontSize(double.parse(newSize ?? '12'));
     setState(() {
       fontSize = double.parse(newSize ?? '12');
+    });
+  }
+
+  void changeFontType(String? newFontType) {
+    settings.setFontType(newFontType ?? 'courier');
+    setState(() {
+      fontType = newFontType ?? 'courier';
     });
   }
 }
@@ -126,7 +176,7 @@ class ColorSquare extends StatelessWidget {
       width: 72,
       height: 72,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
           color: Color(colorCode)),
     );
   }

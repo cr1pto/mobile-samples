@@ -3,6 +3,7 @@ import 'dart:async';
 
 class SPSettings {
   final String fontSizeKey = 'font_size';
+  final String fontTypeKey = 'font_type';
   final String colorKey = 'color';
   static late SharedPreferences _sp;
   static SPSettings? _instance;
@@ -45,5 +46,16 @@ class SPSettings {
        fontSize = 12;
     }
     return fontSize;
+  }
+
+  String getFontType() {
+    String? fontType = _sp.getString(fontTypeKey);
+
+    fontType ??= 'courier';
+
+    return fontType;
+  }
+  Future setFontType(String fontType) async {
+    await _sp.setString(fontTypeKey, fontType);
   }
 }
