@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glob_app/data/shared_prefs.dart';
+import 'package:glob_app/screens/bible_screen.dart';
 import 'package:glob_app/screens/home.dart';
 import 'package:glob_app/screens/memos.dart';
 import 'package:glob_app/screens/my_network.dart';
@@ -24,6 +25,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
       'Memos',
       'Passwords',
       'My Network',
+      'Bible',
       'Settings'
     ];
 
@@ -51,6 +53,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
               break;
             case 'My Network':
               screen = const MyNetworkScreen();
+              break;
+            case 'Bible':
+              screen = BibleScreen();
               break;
             case 'Settings':
               screen = const SettingsScreen();
