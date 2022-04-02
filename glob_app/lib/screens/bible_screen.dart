@@ -9,12 +9,12 @@ import '../shared/menu_bar.dart';
 
 class BibleScreen extends StatefulWidget {
   final String widgetName = 'Bible';
+  final BibleService bibleService = BibleService();
   @override
   _BibleScreenState createState() => _BibleScreenState();
 }
 
 class _BibleScreenState extends State<BibleScreen> {
-  BibleService bibleService = BibleService();
   int settingColor = 0xff1976d2;
   double fontSize = 16;
   SPSettings settings = SPSettings();
@@ -26,7 +26,7 @@ class _BibleScreenState extends State<BibleScreen> {
   @override
   void initState() {
     settings.init().then((value) async {
-      bible = await bibleService.loadAsset();
+      bible = await widget.bibleService.loadAsset();
       setState(() {
         settingColor = settings.getColor();
         fontSize = settings.getFontSize();
@@ -43,7 +43,7 @@ class _BibleScreenState extends State<BibleScreen> {
       books.add(book);
     }
 
-    return BooksScreen(books);
+    return BooksScreen(settingColor, fontSize, books);
   }
 
   @override
@@ -53,7 +53,6 @@ class _BibleScreenState extends State<BibleScreen> {
         title: Text(widget.widgetName),
         backgroundColor: Color(settingColor),
       ),
-      //probably actually want a special menu drawer
       drawer: const MenuDrawer(),
       body: buildBibleView(context, bible),
     );

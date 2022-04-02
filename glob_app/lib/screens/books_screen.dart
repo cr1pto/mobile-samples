@@ -6,7 +6,9 @@ import 'package:glob_app/shared/menu_bar.dart';
 class BooksScreen extends StatefulWidget {
   final String widgetName = 'Books';
   final List<BIBLEBOOK> books;
-  const BooksScreen(this.books, {Key? key}) : super(key: key);
+  final int settingColor;
+  final double fontSize;
+  const BooksScreen(this.settingColor, this.fontSize, this.books, {Key? key}) : super(key: key);
 
   @override
   _BooksScreenState createState() => _BooksScreenState();
