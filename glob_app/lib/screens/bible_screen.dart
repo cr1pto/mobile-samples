@@ -39,11 +39,22 @@ class _BibleScreenState extends State<BibleScreen> {
   Widget buildBibleView(BuildContext context, Bible? bible) {
     List<BIBLEBOOK> books = [];
 
-    for (BIBLEBOOK book in bible!.xMLBIBLE!.bIBLEBOOK) {
+    if(bible == null) return Container();
+
+    for (BIBLEBOOK book in bible.xMLBIBLE!.bIBLEBOOK) {
       books.add(book);
     }
 
-    return BooksScreen(settingColor, fontSize, books);
+    return Scaffold(
+      body: BooksScreen(settingColor, fontSize, books),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.arrow_circle_left),
+          backgroundColor: Color(settingColor),
+          onPressed: () {
+            Navigator.pop(context);
+          }
+      ),
+    );
   }
 
   @override

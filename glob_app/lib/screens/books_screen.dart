@@ -41,8 +41,17 @@ class _BooksScreenState extends State<BooksScreen> {
       );
     }
 
-    return ListView(
-        children: allBooks
+    return Scaffold(
+      body: ListView(
+          children: allBooks
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.arrow_circle_left),
+          backgroundColor: Colors.blue,
+          onPressed: () {
+            Navigator.pop(context);
+          }
+      ),
     );
   }
 

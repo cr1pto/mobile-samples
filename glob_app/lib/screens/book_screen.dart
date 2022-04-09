@@ -39,6 +39,13 @@ class _BookScreenState extends State<BookScreen> {
       //probably actually want a special menu drawer
       drawer: const MenuDrawer(),
       body: ChaptersScreen(bookName, widget.book.cHAPTER),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.arrow_circle_left),
+          backgroundColor: Colors.blue,
+          onPressed: () {
+            Navigator.pop(context);
+          }
+      ),
     );
   }
 }

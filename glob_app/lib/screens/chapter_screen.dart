@@ -27,7 +27,14 @@ class _ChapterScreenState extends State<ChapterScreen> {
     return Scaffold(
       //probably actually want a special menu drawer
       drawer: const MenuDrawer(),
-      body: versesWidget
+      body: versesWidget,
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.arrow_circle_left),
+          backgroundColor: Colors.blue,
+          onPressed: () {
+            Navigator.pop(context);
+          }
+      ),
     );
   }
 }

@@ -31,9 +31,18 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
         );
       }
 
-       chaptersWidget = ListView(
-          children: allChapters
-      );
+       chaptersWidget = Scaffold(
+         body: ListView(
+            children: allChapters
+      ),
+         floatingActionButton: FloatingActionButton(
+             child: const Icon(Icons.arrow_circle_left),
+             backgroundColor: Colors.blue,
+             onPressed: () {
+               Navigator.pop(context);
+             }
+         ),
+       );
     });
     super.initState();
   }
