@@ -13,5 +13,7 @@ class NetworkSettings {
 
   String? wifiBroadcast;
 
+
+
   NetworkSettings(this.wifiName, this.wifiBssId, this.wifiIp, this.wifiIpv6, this.wifiSubmask, this.wifiBroadcast, this.wifiGateway);
 }
