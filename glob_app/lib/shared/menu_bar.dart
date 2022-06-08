@@ -3,7 +3,6 @@ import 'package:glob_app/data/shared_prefs.dart';
 import 'package:glob_app/screens/bible_screen.dart';
 import 'package:glob_app/screens/home.dart';
 import 'package:glob_app/screens/memos.dart';
-import 'package:glob_app/screens/my_network.dart';
 import 'package:glob_app/screens/passwords.dart';
 import 'package:glob_app/screens/settings.dart';
 
@@ -50,9 +49,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
               break;
             case 'Passwords':
               screen = const PasswordsScreen();
-              break;
-            case 'My Network':
-              screen = const MyNetworkScreen();
               break;
             case 'Bible':
               screen = BibleScreen();

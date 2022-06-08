@@ -9,11 +9,13 @@ class ChaptersScreen extends StatefulWidget {
   const ChaptersScreen(this.bookName, this.chapters, {Key? key}) : super(key: key);
 
   @override
-  _ChaptersScreenState createState() => _ChaptersScreenState();
+  _ChaptersScreenState createState() => _ChaptersScreenState(this.bookName);
 }
 
 class _ChaptersScreenState extends State<ChaptersScreen> {
   late Widget chaptersWidget;
+  final String bookName;
+  _ChaptersScreenState(this.bookName);
   @override
   void initState() {
     setState(() {
@@ -38,6 +40,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
          floatingActionButton: FloatingActionButton(
              child: const Icon(Icons.arrow_circle_left),
              backgroundColor: Colors.blue,
+             heroTag: bookName,
              onPressed: () {
                Navigator.pop(context);
              }
